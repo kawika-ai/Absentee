@@ -1,0 +1,400 @@
+<!doctype html>
+<html>
+<head>
+
+  <style>
+  body {
+    background-image: url("C:/Users/Kawika/Desktop/Swissport Project/hi-garden.jpg");
+    background-repeat: no-repeat;
+    background-size: 1900px 1000px;
+    background-color: rgba(238, 238, 238, 0.81) !important;
+
+    background-blend-mode: color;
+
+  }
+  </style>
+
+<title>Hawaii Absentee Application</title>
+<!--                JavaScript Assignment 03                -->
+<!--   Modified version of HI Absentee Ballot Application   -->
+<!--                 Modified by: Kawika Christian                  -->
+<script type="text/javascript">
+
+
+/** This function will go through several textboxes and checkboxes, using the if statements
+* we will set requirements for each of them using regex and true false.
+**/
+function validateForm() {
+
+  //variable that will hold the ballotType from the absentapp form.
+  let ballotNodes = document.absentapp.ballotType;
+
+        // If both are unchecked, then the user didn't select a gender.
+        if (!ballotNodes[0].checked && !ballotNodes[1].checked && !ballotNodes[2].checked && !ballotNodes[3].checked) {
+          alert("Please choose a Absentee Ballot for the following Election.");
+          return false;
+        }
+
+
+let ssnNode = document.absentapp.ssn.value;
+let ssnRegex = /^[0-9]{3}\-?[0-9]{2}\-?[0-9]{4}$/;
+
+  //if the users input (ssnNode) doesn't match ssnRegex, then it will return false and display an error message
+  // after the user submits.
+  if(!ssnNode.match(ssnRegex)) {
+    alert("The valid ssn format is: ###-##-####");
+    return false;
+}
+
+let genderNodes = document.absentapp.gender;
+
+      // If both are unchecked, then the user didn't select a gender.
+      if (!genderNodes[0].checked && !genderNodes[1].checked) {
+        alert("Please choose a gender.");
+        return false;
+      }
+
+let phoneNode = document.absentapp.hometele.value;
+let phoneRegex = /^[0-9]{3}\-?[0-9]{4}$/;
+
+  // If the users input doesn't match the phoneRegex, then it will return false.
+  if(!phoneNode.match(phoneRegex)){
+    alert("The valid phone number format is: ###-####");
+    return false;
+  }
+
+let lastnameNode = document.absentapp.lastname.value;
+let nameRegex = /^([a-zA-Z., ]+)$/;
+
+  // If users lastname doesn't match the lastnameRegex, then it will return false.
+  if(!lastnameNode.match(nameRegex)){
+    alert("last name is invalid");
+    return false;
+    }
+
+let firstnameNode = document.absentapp.firstname.value;
+
+
+  // If users firstname doesn't match the firstnameRegex, then it will return false.
+  if(!firstnameNode.match(nameRegex)){
+    alert("first name is invalid");
+    return false;
+  }
+
+
+let initialNode = document.absentapp.initial.value;
+
+
+
+// If user leaves the middle name textbox blank, then nothing will happen.
+if(initialNode == ""){
+
+}
+
+// If user decides to input within the middle name textbox, then it will need to match the initialRegex
+// otherwise it will return false.
+else if(!initialNode.match(nameRegex)){
+  alert("middle name is invalid");
+  return false;
+}
+
+let resNode = document.absentapp.resAdd.value;
+
+// User is unable to leave the residence textbox blank.
+if(resNode == ""){
+  alert("Cannot leave Residence Address blank");
+  return false;
+}
+
+let cityNode = document.absentapp.citytown1.value;
+let cityRegex = /^([a-zA-Z,. ]+)$/;
+
+
+// Will return false if city/town doesn't match cityRegex.
+if(!cityNode.match(cityRegex)){
+  alert("City/Town must consist of upper/lowercase letters, periods, commas, and spaces only");
+  return false;
+}
+
+let zipNode = document.absentapp.zip1.value;
+let zipRegex = /^96[78]\d\d$/;
+
+// Returns false if zip code doesn't match zipRegex.
+if(!zipNode.match(zipRegex)){
+  alert("zip code not valid. Example formats: 967XX, 968XX, 967XX-XXXX, 968XX-XXXX, where X are digits");
+  return false;
+}
+
+let forwardNameNode = document.absentapp.forwardName.value;
+
+// Returns false if forward name textbox is left blank.
+if(forwardNameNode == ""){
+  alert("name cannot be blank");
+  return false;
+}
+
+let forwardAddressNode = document.absentapp.forwardAddress.value;
+
+
+// Returns false if forward address textbox is left blank.
+if(forwardAddressNode == ""){
+  alert("address cannot be blank");
+  return false;
+}
+
+let affirmCheck = document.absentapp.affirm;
+
+// Returns false if affirmed checkedbox isn't checked.
+if(!affirmCheck.checked == true){
+  alert("affirmation checkbox must be checked");
+  return false;
+}
+
+  // Returns true if otherwise.
+  alert("Thank You! Your application will be submitted.");
+  return true;
+}
+
+/** When user checks on same Residence Address checkbox it will call this function which Will
+*   grab the values of the first, middle, and last name as well as the res address, apt #, city, and zip Code
+**/
+function checkFill(){
+  let copyResAddNode = document.absentapp.copyResAdd;
+  var resAddNode = document.absentapp.resAdd.value;
+  var aptNode = document.absentapp.aptNo.value;
+  var cityNode = document.absentapp.citytown1.value;
+  var zipNode = document.absentapp.zip1.value;
+  resAddNode += "\n";
+  aptNode += "\n";
+  cityNode = cityNode +  ", HI";
+
+
+  var firstnameNode = document.absentapp.firstname.value;
+  var lastnameNode = document.absentapp.lastname.value;
+  var initialNode = document.absentapp.initial.value;
+
+
+  if (copyResAddNode.checked == true) {
+    document.absentapp.forwardName.value = firstnameNode + " " + initialNode + " " + lastnameNode;
+  }
+
+  if(copyResAddNode.checked == true) {
+
+
+    document.absentapp.forwardAddress.value = resAddNode + " " + aptNode + " " + cityNode + " " + zipNode;
+  }
+}
+checkFill();
+</script>
+</head>
+
+
+
+<body>
+  <!-- The onsubmit event will call the validateForm function when the submit button is clicked -->
+<form name="absentapp" method="post" onsubmit="validateForm()">
+<strong>Section I.</strong> I hereby request Absentee Ballots for the following Election(s):<br>
+<input type="radio" name="ballotType" value="PrimaryOnly">Primary Only
+<input type="radio" name="ballotType" value="GeneralOnly">General Only
+<input type="radio" name="ballotType" value="PandG">Primary &amp; General
+<input type="radio" name="ballotType" value="Special">Special Elections
+<br>
+I hereby request ballot instructions in:
+<input type="checkbox" name="chinese"> Chinese
+<input type="checkbox" name="english"> Japanese
+<input type="checkbox" name="ilocano"> Ilocano
+<br>
+<br>
+<strong>Section II. </strong>Failure to complete certain items will prevent acceptance of this application.<br>
+1. Social Security Number:
+<input type="text" name="ssn" id="ssn"><br>
+2. Date of Birth:
+<select id="month">
+  <!-- Use JavaScript to populate Months -->
+  <script type="text/javascript">
+
+
+// month() will create options using an array called months and for loop. Each time
+// i is less than the arrays length it will add the data within the index.It will repeat the process until
+// i is equal to the arrays length
+function month() {
+  var select = document.getElementById("month");
+   let months = ["January", "Feburary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  for(var i = 0; i < months.length; i++) {
+
+  let monthNode = document.createElement("OPTION");
+
+  monthNode.value = i;
+  monthNode.text = months[i];
+  if (i == 0) {
+    monthNode.selected = true;
+  }
+
+  select.add(monthNode);
+}
+}
+
+month();
+
+
+  </script>
+</select>
+<select id="day">
+  <!-- Use JavaScript to populate Days -->
+  <script type="text/javascript">
+
+var select = document.getElementById("day");
+
+var x = document.getElementById("month");
+
+x.addEventListener("click", day);
+var length = select.options.length;
+
+// Depending on the month the user selects the options for the days will change.
+function day() {
+
+// If month is feburary, then options within day will be wiped using innerHTML and for loop
+// will add 28 days.
+if(x.value == "1"){
+document.getElementById("day").innerHTML = "";
+  for(var i = 1; i < 29; i++) {
+    var dayNode = document.createElement("OPTION");
+
+    dayNode.value = i;
+    dayNode.text = i;
+
+  select.add(dayNode);
+  }
+}
+
+// April will have 30 days using for loop.
+else if(x.value == "3") {
+  document.getElementById("day").innerHTML = "";
+    for(var i = 1; i < 31; i++) {
+      var dayNode = document.createElement("OPTION");
+
+      dayNode.value = i;
+      dayNode.text = i;
+
+    select.add(dayNode);
+    }
+  }
+
+  // June will have 30 days
+  else if(x.value == "5") {
+    document.getElementById("day").innerHTML = "";
+      for(var i = 1; i < 31; i++) {
+        var dayNode = document.createElement("OPTION");
+
+        dayNode.value = i;
+        dayNode.text = i;
+
+      select.add(dayNode);
+      }
+    }
+
+    // September will also have 30 days
+    else if(x.value == "8") {
+      document.getElementById("day").innerHTML = "";
+        for(var i = 1; i < 31; i++) {
+          var dayNode = document.createElement("OPTION");
+
+          dayNode.value = i;
+          dayNode.text = i;
+
+        select.add(dayNode);
+        }
+      }
+
+      // If user selects November options will go up to 30 days
+      else if(x.value == "10") {
+        document.getElementById("day").innerHTML = "";
+          for(var i = 1; i < 31; i++) {
+            var dayNode = document.createElement("OPTION");
+
+            dayNode.value = i;
+            dayNode.text = i;
+
+          select.add(dayNode);
+          }
+        }
+
+// Else the days will be 31 for the selected month
+else {
+document.getElementById("day").innerHTML = "";
+    for(var i = 1; i < 32; i++) {
+      var dayNode = document.createElement("OPTION");
+
+      dayNode.value = i;
+      dayNode.text = i;
+
+select.add(dayNode);
+    }
+
+}
+}
+day();
+</script>
+</select>
+<select id="year">
+  <!-- Use JavaScript to populate Years -->
+  <script>
+  var yearId = document.getElementById("year");
+
+  // Will get current year (2019)
+  var d = new Date().getFullYear();
+
+
+// For loop will add 122 options starting from the current year downwards.
+for(var i = d - 17 ; i > d - 122 ; i--){
+    var f = i;
+
+
+    var yearNode = document.createElement("OPTION");
+    yearNode.value = f;
+    yearNode.text = f;
+
+    yearId.add(yearNode);
+
+}
+
+
+  </script>
+</select>
+<br>
+3. Gender:
+<input type="radio" name="gender" value="male"> Male
+<input type="radio" name="gender" value="female"> Female
+<br>
+4. Telephone Number - Home:
+<input type="text" name="hometele" id="hometele">
+<br>
+5. Last Name:
+<input type="text" name="lastname" id="lastname"><br>
+First Name: <input type="text" name="firstname" id="firstname"> <br>
+Middle Initial(s): <input type="text" name="initial" id="initial"> <br>
+
+6. Residence Address In Hawaii Street:
+<input type="text" name="resAdd" id="resAdd"> Apt No. <input type="text" name="aptNo" id="aptNo"> <br>
+City/Town: <input type="text" name="citytown1" id="citytown1"> Zip Code <input type="text" name="zip1" id="zip1"><br>
+<br>
+<strong>Section III.</strong> Please mail my ballots to: <br>
+Use same as Residence Address:
+<input type="checkbox" name="copyResAdd" id="copyResAdd" onclick="checkFill()"><br>
+7. Name:
+<input type="text" name="forwardName" id="forwardName"> <br>
+8. Forwarding Address:
+<textarea rows="3" name="forwardAddress" id="forwardAddress" ></textarea>
+<br>
+<br>
+
+<strong>Section IV.</strong> I hereby affirm that: 1) I am the person named above; 2) I am requesting an absentee ballot for myself and no other; and 3) all information furnished on this application is true and correct.
+<input type="checkbox" name="affirm" id="affirm" onclick="validateForm()" > <br>
+
+<br>
+<input type="submit" name="Submit" value="Submit">
+</form>
+
+*Notice: A Social Security Number is required by HRS &sect;11-15 and HRS &sect;15-4. It is used to prevent fraudulent registration and voting. Failure to furnish this information will prevent acceptance of this application. Pursuant to HRS &sect;11-20, the City/County Clerks may use this application to transfer a voter to the proper precinct to correspond with the address given above, under item 6.
+</body>
+</html>
